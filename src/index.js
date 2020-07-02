@@ -1,4 +1,7 @@
 import pkg from "../package.json";
+import getVariantSpecificDiscount from './util/getVariantSpecificDiscount.js'
+import schemas from './schemas/index.js'
+import startup from './startup.js'
 
 /**
  * @summary Import and call this function to add this plugin to your API.
@@ -7,8 +10,15 @@ import pkg from "../package.json";
  */
 export default async function register(app) {
   await app.registerPlugin({
-    label: "Plugin Example",
-    name: "plugin-example",
-    version: pkg.version
+    label: "Custom Plugin Discount Variants",
+    name: "discount-variants",
+    version: pkg.version,
+    graphQL: {
+      schemas
+    },
+    functionsByType: {
+      "discounts/codes/variant": [getVariantSpecificDiscount]
+    },
+    "startup": [startup]
   });
 }

@@ -1,6 +1,5 @@
 import pkg from "../package.json";
 import getVariantSpecificDiscount from './util/getVariantSpecificDiscount.js'
-import schemas from './schemas/index.js'
 import startup from './startup.js'
 
 /**
@@ -13,12 +12,9 @@ export default async function register(app) {
     label: "Custom Plugin Discount Variants",
     name: "discount-variants",
     version: pkg.version,
-    graphQL: {
-      schemas
-    },
     functionsByType: {
-      "discounts/codes/variant": [getVariantSpecificDiscount]
+      "discounts/rates/sale": [getVariantSpecificDiscount],
+      "startup": [startup]
     },
-    "startup": [startup]
   });
 }

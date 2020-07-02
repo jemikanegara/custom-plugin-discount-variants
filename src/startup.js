@@ -11,13 +11,13 @@ import { decodeProductOpaqueId } from "./xforms/id.js";
 export default function startup(context) {
  const { appEvents, collections: { Discounts } } = context;
 
- const updateDecodedVariantIds = async ({_id, shopId, discountCode}) => {
-    const variants = discountCode.conditions.variants
-    if (!variants) return
+ const updateDecodedVariantIds = async ({_id, shopId, ...discountCode}) => {
+    const products = discountCode.conditions.products
+    if (!products) return
 
     // Decode variant IDs
-    const decodedVariants = discountCode.conditions.variants.map(variantId => decodeProductOpaqueId(variantId))
-    discountCode.conditions.variants = decodedVariants
+    const decodedVariants = discountCode.conditions.products.map(variantId => decodeProductOpaqueId(variantId))
+    discountCode.conditions.products = decodedVariants
 
     // Update variant IDs
     await Discounts.updateOne({
